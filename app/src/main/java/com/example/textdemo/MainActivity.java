@@ -75,20 +75,17 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(FirebaseVisionText firebaseVisionText) {
                 String recognizedText = firebaseVisionText.getText();
                 String outputText = "";
-                outputText += recognizedText + "\n\n\n" ;
-                //                textView.setText(s);
 
-                // regex E[ ]{0,1}\d+{3,4}
+                outputText += "=========================\nRecongized text: \n=========================\n" + recognizedText + "\n\n\n";
 
-                Pattern p = Pattern.compile("E[ ]\\{0,1\\}\\d+\\{3,4\\}");
-//                Pattern p = Pattern.compile("E..");
+
+                Pattern p = Pattern.compile("E {0,1}\\d{3,4}");
                 Matcher m = p.matcher(recognizedText);
 
-                outputText += " DAWID1 \n";
+                outputText += "=========================\nFound ingredients: \n=========================\n";
                 while(m.find()) {
-                    outputText += m.group() + " DAWID \n";
+                    outputText += m.group() + ": \"description\"\n";
                 }
-                outputText += " DAWID2  ";
 
                 textView.setText(outputText);
             }
