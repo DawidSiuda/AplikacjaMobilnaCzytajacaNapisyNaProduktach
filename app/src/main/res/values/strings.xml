@@ -1,5 +1,3 @@
 <resources>
-    <string name="app_name">Food additive label decoder</string>
-    <string name="text">E100 kurkumina \nE224 disiarczan potasu \nE251 azotan sodu</string>
-    <string name="buttonDetect">Detect</string>
+    <string name="app_name">TextDemo</string>
 </resources>

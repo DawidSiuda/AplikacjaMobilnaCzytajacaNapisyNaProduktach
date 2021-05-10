@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "Food additive label decoder"
+rootProject.name = "TextDemo"
