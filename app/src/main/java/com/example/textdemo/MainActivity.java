@@ -1,4 +1,4 @@
-package com.example.textdemo;
+ package com.example.textdemo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,13 +23,18 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 public class MainActivity extends AppCompatActivity {
 
     ImageView imageView;
     TextView textView;
+    DatabaseAccess databaseAccess;
+
+    List<String> quotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,15 @@ public class MainActivity extends AppCompatActivity {
             //grant the permission
             requestPermissions(new String[]{Manifest.permission.CAMERA}, 101);
         }
+
+        // Create database
+//        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
+//        databaseAccess.open();
+//        quotes = databaseAccess.getQuotes();
+//        databaseAccess.close();
+
+        databaseAccess = DatabaseAccess.getInstance(this);
+
     }
 
     public void doProcess(View view) {
@@ -70,7 +84,19 @@ public class MainActivity extends AppCompatActivity {
         //4. Create a task to process the image
         Task<FirebaseVisionText> task = firebaseVisionTextRecognizer.processImage(firebaseVisionImage);
         //5. if task is success
+
+
+
         task.addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+//            @Override
+//            public void onSuccess(FirebaseVisionText firebaseVisionText) {
+//                recognizedText= firebaseVisionText.getText();
+////                // Handle successful uploads on complete
+////                downloadUrl = taskSnapshot.getMetadata().getDownloadUrl();
+////                System.out.println("Upload completed");
+////                listenr.onSuccess(downloadurl)
+//            }
+
             @Override
             public void onSuccess(FirebaseVisionText firebaseVisionText) {
                 String recognizedText = firebaseVisionText.getText();
@@ -78,18 +104,25 @@ public class MainActivity extends AppCompatActivity {
 
                 outputText += "=========================\nRecongized text: \n=========================\n" + recognizedText + "\n\n\n";
 
-
                 Pattern p = Pattern.compile("E {0,1}\\d{3,4}");
                 Matcher m = p.matcher(recognizedText);
 
                 outputText += "=========================\nFound ingredients: \n=========================\n";
+                databaseAccess.open();
                 while(m.find()) {
-                    outputText += m.group() + ": \"description\"\n";
+                    String ingredient = m.group();
+                    ingredient = ingredient.replaceAll("\\s", "");
+                    String text = databaseAccess.getIngredient(ingredient);
+                    // outputText += m.group() + " -> " + ingredient + "  -> "+  text +  ": \"description\"\n";
+                    outputText += text + "\n";
                 }
+                databaseAccess.close();
 
                 textView.setText(outputText);
             }
         });
+
+
         //6. if task is failure
         task.addOnFailureListener(new OnFailureListener() {
             @Override
