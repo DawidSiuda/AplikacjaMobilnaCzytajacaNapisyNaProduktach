@@ -74,7 +74,7 @@ public class DatabaseAccess {
         cursor.moveToFirst();
 
         if (!cursor.moveToFirst()) {
-            return "Cannot found ingredient " + name ;
+            return "Cannot found  " + name ;
         }
 
         ingredientdescription = cursor.getString(1) + ": " + cursor.getString(2) + " --> " + cursor.getString(3);

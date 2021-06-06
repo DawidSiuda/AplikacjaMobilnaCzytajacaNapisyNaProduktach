@@ -11,11 +11,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageId"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="take pic"
-        android:onClick="doProcess"/>
+        android:onClick="doProcess"
+        android:text="take pic" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
