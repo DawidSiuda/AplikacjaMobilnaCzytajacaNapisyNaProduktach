@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 String recognizedText = firebaseVisionText.getText();
                 String outputText = "";
 
-                outputText += "=========================\nRecongized text: \n=========================\n" + recognizedText + "\n\n\n";
+                // outputText += "=========================\nRecognized text: \n=========================\n" + recognizedText + "\n\n\n";
 
                 Pattern p = Pattern.compile("E {0,1}\\d{3,4}");
                 Matcher m = p.matcher(recognizedText);
